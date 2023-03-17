@@ -31,3 +31,50 @@ source .env
 ### Install Datahub via vanilla Kubernetes<a name="k8s"/>
 
 #### Before you begin:
+1. Create an environment file `.env` (use `.env-sample` as a template), then run:
+```
+source .env
+```
+
+#### How to deploy:
+1. Add the helm repository:
+2. Update the **resources/datahub-prerequisites/values.yaml** file where appropriate.
+3. Create a namespace for DataHub:
+```
+kubectl create ns $DATAHUB_NAMESPACE
+```
+
+4. Create secrets for the neo4j and mysql dependencies:
+```
+kubectl create secret generic mysql-secrets --from-literal=mysql-root-password=$MYSQL_ROOT_PW -n $DATAHUB_NAMESPACE
+kubectl create secret generic neo4j-secrets --from-literal=neo4j-password=$NEO4J_PW -n $DATAHUB_NAMESPACE
+```
+
+5. Deploy the DataHub pre-requisites (update **resources/charts/prerequisites/values.yaml** as appropriate):
+```
+helm install prerequisites datahub/datahub-prerequisites -n $DATAHUB_NAMESPACE -f resources/charts/prerequisites/values.yaml
+```
+
+6. Verify that the deployment was successful:
+```
+watch kubectl get pods -n $DATAHUB_NAMESPACE
+```
+
+7. Deploy DataHub (update **resources/charts/datahub/values.yaml** as appropriate:)
+```
+helm install datahub datahub/datahub -n $DATAHUB_NAMESPACE -f resources/charts/datahub/values.yaml
+```
+
+8. Deploy the Ingress endpoint:
+```
+source .env
+envsubst < resources/datahub-httpproxy.in.yaml > resources/datahub-httpproxy.yaml
+kubectl apply -f resources/datahub-httpproxy.yaml -n $DATAHUB_NAMESPACE
+```
+
+9. Verify that the deployment was successful:
+```
+watch kubectl get pods -n $DATAHUB_NAMESPACE
+```
+
+Finally, you should be able to access DataHub at http://datahub-<your namespace>.<your domain address>.
