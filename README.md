@@ -78,3 +78,25 @@ watch kubectl get pods -n $DATAHUB_NAMESPACE
 ```
 
 Finally, you should be able to access DataHub at http://datahub-<your namespace>.<your domain address>.
+
+## Integrate with TAP
+
+* Deploy the app (on TAP:
+```
+tanzu apps workload create datahub-tap -f config/workload.yaml --yes
+```
+
+* Tail the logs of the main app:
+```
+tanzu apps workload tail datahub-tap --since 64h
+```
+
+* Once deployment succeeds, get the URL for the main app:
+```
+tanzu apps workload get datahub-tap     #should yield datahub.default.<your-domain>
+```
+
+* To delete the app:
+```
+tanzu apps workload delete datahub-tap --yes
+```
