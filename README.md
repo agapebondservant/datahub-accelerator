@@ -81,7 +81,7 @@ Finally, you should be able to access DataHub at http://datahub-<your namespace>
 
 ## Integrate with TAP
 
-* Deploy the app (on TAP:
+* Deploy the app (on TAP):
 ```
 tanzu apps workload create datahub-tap -f resources/tapworkloads/workload.yaml --yes
 ```
