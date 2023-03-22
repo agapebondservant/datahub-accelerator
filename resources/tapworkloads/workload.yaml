@@ -10,6 +10,9 @@ spec:
   params:
     - name: clusterBuilder
       value: full
+    - name: annotations
+      value:
+        autoscaling.knative.dev/minScale: "1"
   env:
     - name: BP_WEB_SERVER
       value: nginx
