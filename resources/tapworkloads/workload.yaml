@@ -6,13 +6,12 @@ metadata:
   labels:
     apps.tanzu.vmware.com/workload-type: web
     app.kubernetes.io/part-of: datahub-tap
+  annotations:
+    autoscaling.knative.dev/minScale: "1"
 spec:
   params:
     - name: clusterBuilder
       value: full
-    - name: annotations
-      value:
-        autoscaling.knative.dev/minScale: "1"
   env:
     - name: BP_WEB_SERVER
       value: nginx
