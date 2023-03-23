@@ -1,7 +1,7 @@
 accelerator:
   displayName: DataHub Accelerator
   description: Template for deploying DataHub to TAP
-  iconUrl: https://upload.wikimedia.org/wikipedia/commons/1/1b/ML_Ops_Venn_Diagram.svg
+  iconUrl: https://repository-images.githubusercontent.com/46398090/6eab4c80-5005-11ea-9953-a9b699abe985
   tags:
   - "ML"
   - "AI"
