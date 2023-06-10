@@ -1,0 +1,14 @@
+---
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: datahub-gms-httpproxy
+spec:
+  routes:
+    - conditions:
+        - prefix: /
+      services:
+        - name: datahub-gms-service
+          port: 8080
+  virtualhost:
+    fqdn: datahub-gms-${DATAHUB_NAMESPACE}.${DATA_E2E_BASE_URL}

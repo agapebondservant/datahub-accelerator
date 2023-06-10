@@ -65,11 +65,13 @@ watch kubectl get pods -n $DATAHUB_NAMESPACE
 helm install datahub datahub/datahub -n $DATAHUB_NAMESPACE -f resources/charts/datahub/values.yaml
 ```
 
-8. Deploy the Ingress endpoint:
+8. Deploy the Ingress endpoints:
 ```
 source .env
 envsubst < resources/datahub-httpproxy.in.yaml > resources/datahub-httpproxy.yaml
+envsubst < resources/datahub-gms-httpproxy.in.yaml > resources/datahub-gms-httpproxy.yaml
 kubectl apply -f resources/datahub-httpproxy.yaml -n $DATAHUB_NAMESPACE
+kubectl apply -f resources/datahub-gms-httpproxy.yaml -n $DATAHUB_NAMESPACE
 ```
 
 9. Verify that the deployment was successful:

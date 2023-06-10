@@ -1,3 +1,4 @@
 .env
 resources/datahub-httpproxy.yaml
+resources/datahub-gms-httpproxy.yaml
 resources/tapworkloads/service-claim-secret.in.yaml
