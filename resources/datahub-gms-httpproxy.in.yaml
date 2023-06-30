@@ -8,7 +8,7 @@ spec:
     - conditions:
         - prefix: /
       services:
-        - name: datahub-gms-service
+        - name: datahub-datahub-gms
           port: 8080
   virtualhost:
     fqdn: datahub-gms-${DATAHUB_NAMESPACE}.${DATA_E2E_BASE_URL}
