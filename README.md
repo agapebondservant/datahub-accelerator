@@ -20,7 +20,7 @@ tanzu acc create datahub --git-repository https://github.com/agapebondservant/da
 1. [Install Datahub via TAP/tanzu cli](#tanzu)
 2. [Install Datahub with vanilla Kubernetes](#k8s)
 
-### Install Datahub via TAP/tanzu cli<a name="tanzu"/>
+### Install Datahub via TAP/tanzu cli<a name="tanzu"/> (Work in progress)
 
 #### Before you begin (one time setup):
 1. Create an environment file `.env` (use `.env-sample` as a template), then run:
@@ -47,7 +47,7 @@ kubectl create ns $DATAHUB_NAMESPACE
 4. Create secrets for the neo4j and mysql dependencies:
 ```
 kubectl create secret generic mysql-secrets --from-literal=mysql-root-password=$MYSQL_ROOT_PW -n $DATAHUB_NAMESPACE
-kubectl create secret generic neo4j-secrets --from-literal=neo4j-password=$NEO4J_PW -n $DATAHUB_NAMESPACE
+kubectl create secret generic neo4j-secrets --from-literal=neo4j-password=$NEO4J_PW --from-literal=NEO4J_AUTH=neo4j/$NEO4J_PW -n $DATAHUB_NAMESPACE
 ```
 
 5. Deploy the DataHub pre-requisites (update **resources/charts/prerequisites/values.yaml** as appropriate):
