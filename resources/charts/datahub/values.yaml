@@ -3,8 +3,12 @@
 datahub-gms:
   enabled: true
   image:
-    repository: linkedin/datahub-gms
+    repository: acryldata/datahub-gms
     # tag: "v0.11.0 # defaults to .global.datahub.version
+    # Add custom command / arguments to this job.  Useful if you need a custom startup or shutdown script
+    # to run
+    # command: customCommand
+    # args: []
   resources:
     limits:
       memory: 2Gi
@@ -19,6 +23,9 @@ datahub-gms:
     initialDelaySeconds: 120
     periodSeconds: 30
     failureThreshold: 8
+  # Optionaly specify service type for datahub-gms: LoadBalancer, ClusterIP or NodePort, by default: LoadBalancer
+  # service:
+  #   type: ClusterIP
   # Optionally set a GMS specific SQL login (defaults to global login)
   # sql:
   #   datasource:
@@ -30,8 +37,12 @@ datahub-gms:
 datahub-frontend:
   enabled: true
   image:
-    repository: linkedin/datahub-frontend-react
+    repository: acryldata/datahub-frontend-react
     # tag: "v0.11.0" # # defaults to .global.datahub.version
+    # Add custom command / arguments to this job.  Useful if you need a custom startup or shutdown script
+    # to run
+    # command: customCommand
+    # args: []
   resources:
     limits:
       memory: 1400Mi
@@ -41,17 +52,27 @@ datahub-frontend:
   # Set up ingress to expose react front-end
   ingress:
     enabled: false
-  defaultUserCredentials:
-  #  randomAdminPassword: true
-  #  # You can also set specific passwords for default users
-     manualValues: |
-       datahub:Vmware1!
+  defaultUserCredentials: {}
+  service:
+    extraLabels: {}
+    # randomAdminPassword: true
+    # You can also set specific passwords for default users
+    manualValues: |
+      datahub:Vmware1!
+    #   initialViewer:manualPassword
+  # Optionaly specify service type for datahub-frontend: LoadBalancer, ClusterIP or NodePort, by default: LoadBalancer
+  # service:
+  #   type: ClusterIP
 
 acryl-datahub-actions:
   enabled: true
   image:
     repository: acryldata/datahub-actions
-    tag: "v0.0.11"
+    tag: "v0.0.15"
+    # Add custom command / arguments to this job.  Useful if you need a custom startup or shutdown script
+    # to run
+    # command: customCommand
+    # args: []
   # mount the k8s secret as a volume in the container, each key name is mounted as a file on the mount path /etc/datahub/ingestion-secret-files
   # ingestionSecretFiles:
   #   name: ${K8S_SECRET_NAME}
@@ -65,8 +86,12 @@ acryl-datahub-actions:
 
 datahub-mae-consumer:
   image:
-    repository: linkedin/datahub-mae-consumer
+    repository: acryldata/datahub-mae-consumer
     # tag: "v0.11.0" # defaults to .global.datahub.version
+    # Add custom command / arguments to this job.  Useful if you need a custom startup or shutdown script
+    # to run
+    # command: customCommand
+    # args: []
   resources:
     limits:
       memory: 1536Mi
@@ -76,8 +101,12 @@ datahub-mae-consumer:
 
 datahub-mce-consumer:
   image:
-    repository: linkedin/datahub-mce-consumer
+    repository: acryldata/datahub-mce-consumer
     # tag: "v0.11.0" # defaults to .global.datahub.version
+    # Add custom command / arguments to this job.  Useful if you need a custom startup or shutdown script
+    # to run
+    # command: customCommand
+    # args: []
   resources:
     limits:
       memory: 1536Mi
@@ -94,8 +123,12 @@ datahub-ingestion-cron:
 elasticsearchSetupJob:
   enabled: true
   image:
-    repository: linkedin/datahub-elasticsearch-setup
+    repository: acryldata/datahub-elasticsearch-setup
     # tag: "v0.11.0" # defaults to .global.datahub.version
+    # Add custom command / arguments to this job.  Useful if you need a custom startup or shutdown script
+    # to run
+    # command: customCommand
+    # args: []
   resources:
     limits:
       cpu: 500m
@@ -115,17 +148,25 @@ elasticsearchSetupJob:
     helm.sh/hook-weight: "-5"
     helm.sh/hook-delete-policy: before-hook-creation
   podAnnotations: {}
+  # If you want to use OpenSearch instead of ElasticSearch add the USE_AWS_ELASTICSEARCH environment variable below
+  # extraEnvs:
+  #   - name: USE_AWS_ELASTICSEARCH
+  #     value: "true"
   # Add extra sidecar containers to job pod
   extraSidecars: []
     # - name: my-image-name
-    #   image: my-image
+  #   image: my-image
   #   imagePullPolicy: Always
 
 kafkaSetupJob:
   enabled: true
   image:
-    repository: linkedin/datahub-kafka-setup
+    repository: acryldata/datahub-kafka-setup
     # tag: "v0.11.0" # defaults to .global.datahub.version
+    # Add custom command / arguments to this job.  Useful if you need a custom startup or shutdown script
+    # to run
+    # command: customCommand
+    # args: []
   resources:
     limits:
       cpu: 500m
@@ -148,7 +189,7 @@ kafkaSetupJob:
   # Add extra sidecar containers to job pod
   extraSidecars: []
     # - name: my-image-name
-    #   image: my-image
+  #   image: my-image
   #   imagePullPolicy: Always
 
 mysqlSetupJob:
@@ -156,6 +197,10 @@ mysqlSetupJob:
   image:
     repository: acryldata/datahub-mysql-setup
     # tag: "v0.11.0" # defaults to .global.datahub.version
+    # Add custom command / arguments to this job.  Useful if you need a custom startup or shutdown script
+    # to run
+    # command: customCommand
+    # args: []
   resources:
     limits:
       cpu: 500m
@@ -183,7 +228,7 @@ mysqlSetupJob:
   # Add extra sidecar containers to job pod
   extraSidecars: []
     # - name: my-image-name
-    #   image: my-image
+  #   image: my-image
   #   imagePullPolicy: Always
 
 postgresqlSetupJob:
@@ -191,6 +236,10 @@ postgresqlSetupJob:
   image:
     repository: acryldata/datahub-postgres-setup
     # tag: "v0.11.0" # defaults to .global.datahub.version
+    # Add custom command / arguments to this job.  Useful if you need a custom startup or shutdown script
+    # to run
+    # command: customCommand
+    # args: []
   resources:
     limits:
       cpu: 500m
@@ -218,7 +267,7 @@ postgresqlSetupJob:
   # Add extra sidecar containers to job pod
   extraSidecars: []
     # - name: my-image-name
-    #   image: my-image
+  #   image: my-image
   #   imagePullPolicy: Always
   # Optionally set a specific database using extraEnvs
   # extraEnvs: []
@@ -234,6 +283,11 @@ datahubUpgrade:
   batchSize: 1000
   batchDelayMs: 100
   noCodeDataMigration:
+    image:
+      # Add custom command / arguments to this job.  Useful if you need a custom startup or shutdown script
+      # to run
+      command:
+      args: []
     sqlDbType: "MYSQL"
     # sqlDbType: "POSTGRES"
   podSecurityContext: {}
@@ -250,9 +304,14 @@ datahubUpgrade:
   # Add extra sidecar containers to job pod
   extraSidecars: []
     # - name: my-image-name
-    #   image: my-image
+  #   image: my-image
   #   imagePullPolicy: Always
   cleanupJob:
+    image:
+      # Add custom command / arguments to this job.  Useful if you need a custom startup or shutdown script
+      # to run
+      command:
+      args: []
     resources:
       limits:
         cpu: 500m
@@ -260,12 +319,19 @@ datahubUpgrade:
       requests:
         cpu: 300m
         memory: 256Mi
+    # Add the concurrency Policy flexibility via values
+    concurrencyPolicy: Allow
     # Add extra sidecar containers to job pod
     extraSidecars: []
       # - name: my-image-name
-      #   image: my-image
+    #   image: my-image
     #   imagePullPolicy: Always
   restoreIndices:
+    image:
+      # Add custom command / arguments to this job.  Useful if you need a custom startup or shutdown script
+      # to run
+      command:
+      args: []
     resources:
       limits:
         cpu: 500m
@@ -273,10 +339,14 @@ datahubUpgrade:
       requests:
         cpu: 300m
         memory: 256Mi
+    # Schedule of CronJob when enabled
+    schedule: "0 0 * * 0"
+    # Add the concurrency Policy flexibility via values
+    concurrencyPolicy: Allow
     # Add extra sidecar containers to job pod
     extraSidecars: []
       # - name: my-image-name
-      #   image: my-image
+    #   image: my-image
     #   imagePullPolicy: Always
     # Optionally set a specific PostgreSQL database name using extraEnvs
     # extraEnvs:
@@ -290,6 +360,10 @@ datahubSystemUpdate:
   image:
     repository: acryldata/datahub-upgrade
     # tag:
+    # Add custom command / arguments to this job.  Useful if you need a custom startup or shutdown script
+    # to run
+    # command: customCommand
+    # args: []
   podSecurityContext: {}
   # fsGroup: 1000
   securityContext: {}
@@ -300,6 +374,25 @@ datahubSystemUpdate:
     helm.sh/hook: pre-install,pre-upgrade
     helm.sh/hook-weight: "-4"
     helm.sh/hook-delete-policy: before-hook-creation
+  # !! Requires version v0.13.0 or greater
+  # Split the system update into 2 jobs, one that is blocking the rest of
+  # the deployment and the other which is non-blocking. Once the blocking
+  # steps are completed, the non-blocking job runs while the rest of the
+  # system is starting.
+  nonblocking:
+    enabled: false
+    # When mode = 'nonblocking' the nonblocking job should not include the above helm.sh/hook annotations
+    annotations:
+      # This is what defines this resource as a hook. Without this line, the
+      # job is considered part of the release.
+      helm.sh/hook: post-install,post-upgrade
+      helm.sh/hook-delete-policy: before-hook-creation
+    image:
+      args:
+      # Add custom command / arguments to this job.  Useful if you need a custom startup or shutdown script
+      # to run
+      # command: customCommand
+      # args: []
   podAnnotations: {}
   resources:
     limits:
@@ -311,7 +404,7 @@ datahubSystemUpdate:
   # Add extra sidecar containers to job pod
   extraSidecars: []
     # - name: my-image-name
-    #   image: my-image
+  #   image: my-image
   #   imagePullPolicy: Always
   extraInitContainers: []
 
@@ -323,6 +416,8 @@ global:
 
   elasticsearch:
     host: "elasticsearch-master"
+    # If you want to use OpenSearch instead of ElasticSearch use different hostname below
+    # host: "opensearch-cluster-master"
     port: "9200"
     skipcheck: "false"
     insecure: "false"
@@ -342,8 +437,18 @@ global:
 
       ## Index settings can be overridden for entity indices or other indices on an index by index basis
       ## Some index settings, such as # of shards, requires reindexing while others, i.e. replicas, do not
+      ## The index settings options can be specified as a string or a map (which is converted to a string
+      ## representation)
+      ##
       ## Non-Entity indices do not require the prefix
       # settingsOverrides: '{"graph_service_v1":{"number_of_shards":"5"},"system_metadata_service_v1":{"number_of_shards":"5"}}'
+      ## or
+      # settingsOverrides:
+      #   graph_service_v1:
+      #     number_of_shards: '5'
+      #   system_metadata_service_v1:
+      #     number_of_shards: '6'
+      #
       ## Entity indices do not require the prefix or suffix
       # entitySettingsOverrides: '{"dataset":{"number_of_shards":"10"}}'
 
@@ -488,6 +593,13 @@ global:
       metadata_change_log_timeseries_topic_name: "MetadataChangeLog_Timeseries_v1"
       platform_event_topic_name: "PlatformEvent_v1"
       datahub_upgrade_history_topic_name: "DataHubUpgradeHistory_v1"
+    maxMessageBytes: "5242880"  # 5MB
+    producer:
+      compressionType: none
+      maxRequestSize: "5242880"  # 5MB
+    consumer:
+      maxPartitionFetchBytes: "5242880"  # 5MB
+      stopContainerOnDeserializationError: true
     ## For AWS MSK set this to a number larger than 1
     # partitions: 3
     # replicationFactor: 3
@@ -561,13 +673,19 @@ global:
       #   value: password
 
   datahub:
-    version: v0.11.0
+    version: v0.13.2
     gms:
+      protocol: "http"
       port: "8080"
       nodePort: "30001"
 
+    frontend:
+      validateSignUpEmail: true
+
     monitoring:
       enablePrometheus: true
+      # Set a custom name for the monitoring port
+      portName: jmx
 
     mae_consumer:
       port: "9091"
@@ -593,10 +711,10 @@ global:
 
     managed_ingestion:
       enabled: true
-      defaultCliVersion: "0.11.0"
+      defaultCliVersion: "0.13.1.2"
 
     metadata_service_authentication:
-      enabled: false
+      enabled: true
       systemClientId: "__datahub_system"
       systemClientSecret:
         secretRef: "datahub-auth-secrets"
@@ -631,6 +749,29 @@ global:
       show_browse_v2: true  # If on, show the new browse experience as of v0.10.5
       backfill_browse_v2: true  # If on, run the backfill upgrade job that generates default browse paths for relevant entities
 
+    ## v0.13.4+
+    mcp:
+      throttle:
+        # updateIntervalMs: 60000
+        ## Versioned MCL topic
+        versioned:
+          ## Whether to throttle MCP processing based on MCL backlog
+          enabled: true
+        #  threshold: 4000
+        #  maxAttempts: 1000
+        #  initialIntervalMs: 100
+        #  multiplier: 10
+        #  maxIntervalMs:  30000
+        # Timeseries MCL topic
+        timeseries:
+          ## Whether to throttle MCP processing based on MCL backlog
+          enabled: false
+        #  threshold: 4000
+        #  maxAttempts: 1000
+        #  initialIntervalMs: 100
+        #  multiplier: 10
+        #  maxIntervalMs: 30000
+
 #  hostAliases:
 #    - ip: "192.168.0.104"
 #      hostnames:
@@ -660,3 +801,5 @@ global:
 #    ssl.truststore.type: JKS
 #    ssl.protocol: TLS
 #    ssl.endpoint.identification.algorithm:
+#    basic.auth.credentials.source: USER_INFO
+#    basic.auth.user.info:

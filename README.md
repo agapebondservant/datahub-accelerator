@@ -38,7 +38,12 @@ source .env
 
 #### How to deploy:
 1. Add the helm repository:
+```
+helm repo add datahub https://helm.datahubproject.io/
+```
+
 2. Update the **resources/datahub-prerequisites/values.yaml** file where appropriate.
+
 3. Create a namespace for DataHub:
 ```
 kubectl create ns $DATAHUB_NAMESPACE
