@@ -79,10 +79,10 @@ acryl-datahub-actions:
   #   defaultMode: "0444"
   resources:
     limits:
-      memory: 512Mi
+      memory: 1Gi
     requests:
       cpu: 300m
-      memory: 256Mi
+      memory: 1Gi
 
 datahub-mae-consumer:
   image:
